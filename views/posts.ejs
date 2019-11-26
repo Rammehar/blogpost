@@ -1,0 +1,65 @@
+<%- include header.ejs %>
+
+<main role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+          <div class="container">
+            <h1 class="display-3">All Posts</h1>
+            <p>One of the finest Blog post</p>
+          </div>
+        </div>
+      
+        <div class="container">
+          <!-- Example row of columns -->
+            <h4>Total Posts are (<%=count%>)</h4>
+            <hr/>
+            <% posts.forEach(function(post, index) { %>
+                <div class="row">
+                    <div class="col-md-12">
+                    <h4><%= post.title %></h4>
+                    <p>Author:-<strong><%= post.author.name %></strong></p>
+                    <% let date = new Date(post.date); %>
+                    <p class="">Date:-<%=date.toDateString() %></p>
+                    <p><%= myExcerpt(post.description) %></p>
+                    <p><a class="btn btn-sm btn-danger" href="/post/detail/<%= post._id %>" role="button">View details &raquo;</a></p>
+                    </div>
+                </div>
+                <hr/>
+            <% }) %>
+         
+          <% if (pages > 1) { %>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination pagination-sm justify-content-center">
+                    <% if (current == 1) { %>
+                        <li class="disabled page-item"><a class="page-link">First</a></li>
+                    <% } else { %>
+                        <li class="page-item"><a class="page-link" href="/post/1">First</a></li>
+                    <% } %>
+                    <% var i = (Number(current) > 5 ? Number(current) - 4 : 1) %>
+                    <% if (i !== 1) { %>
+                        <li class="disabled page-item"><a class="page-link">...</a></li>
+                    <% } %>
+                    <% for (; i <= (Number(current) + 4) && i <= pages; i++) { %>
+                        <% if (i == current) { %>
+                            <li class="active page-item"><a class="page-link"><%= i %></a></li>
+                        <% } else { %>
+                            <li class="page-item"><a class="page-link" href="/post/<%= i %>"><%= i %></a></li>
+                        <% } %>
+                        <% if (i == Number(current) + 4 && i < pages) { %>
+                            <li class="disabled page-item"><a class="page-link">...</a></li>
+                        <% } %>
+                    <% } %>
+                    <% if (current == pages) { %>
+                        <li class="disabled"><a class="page-link">Last</a></li>
+                    <% } else { %>
+                        <li><a class="page-link" href="/post/<%= pages %>">Last</a></li>
+                    <% } %>
+                </ul>
+            </nav>
+        <% } %>
+        </div> <!-- /container -->
+      
+      </main>
+
+      <%- include footer.ejs %>

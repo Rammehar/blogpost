@@ -1,0 +1,82 @@
+<%- include header.ejs %>
+
+<main role="main">
+
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+          <div class="container">
+            <h1 class="display-3"><%= post.title %></h1>
+          </div>
+        </div>
+      
+        <div class="container">
+          <!-- Example row of columns -->
+          <div class="row">
+                <div class="col-md-12">
+                <p>Author:-<strong><%= post.author.name %></strong></p>
+                <% let date = new Date(post.date); %>
+                <p class="">Date:-<%=date.toDateString() %></p>
+                <p><%=post.description %></p>
+                 <hr/>
+                 <form method="post" autocomplete="off" action="/post/do-comment" class="col-md-4">
+                  <input type="hidden" name="post_id" value="<%= post._id%>"
+                  <label>Your Name</label>
+                  <input type="text" name="name" class="form-control  form-control-sm"/>
+                  <br/>
+                  <label>Email</label>
+                  <input type="email" name="email" class="form-control  form-control-sm"/>
+                  <br/>
+                  <label>Comment</label>
+                  <textarea name="comment" class="form-control  form-control-sm" placeholder="Enter Comment"></textarea>
+                  <button type="submit" class="btn btn-info">Comment</button>
+                </form>
+                <hr/>
+                 <h4>Comments</h4>
+                 <% post.comments.forEach(comment=>{ %>
+                 <div class="media">
+                  <img class="d-flex mr-3 rounded-circle" src="http://placehold.it/50x50" alt="">
+                   <div class="media-body"> 
+                    <h5 class="mt-0"><%=comment.username%></h5>
+                    <%=comment.comment%> 
+                      <%comment.replies.forEach(reply=>{%>
+                      <div class="media mt-3">
+                        <a class="pr-3" href="#">
+                          <img src="http://placehold.it/50x50" alt="Generic placeholder image">
+                        </a>
+                        <div class="media-body">
+                          <h5 class="mt-0"><%=reply.name%></h5>
+                          <%=reply.reply%>
+                        </div>
+                      </div>
+                      <%})%>
+
+
+
+                  </div>
+                </div>
+
+                <form method="post" autocomplete="off" action="/post/do-reply" class="col-md-4">
+                  <input type="hidden" name="post_id" value="<%= post._id%>"/>
+                  <input type="hidden" name="comment_id" value="<%= comment._id%>"/>
+                  <label>Your Name</label>
+                  <input type="text" name="name" class="form-control  form-control-sm"/>
+                  <br/> 
+                  <label>Reply</label>
+                  <textarea name="reply" class="form-control  form-control-sm" placeholder="Enter Reply"></textarea>
+                  <button type="submit" class="btn btn-info">Reply</button>
+                </form>
+
+
+                <%})%>
+
+                 <hr/>
+                </div>
+          </div>
+      
+          <hr>
+      
+        </div> <!-- /container -->
+      
+      </main>
+
+      <%- include footer.ejs %>

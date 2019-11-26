@@ -1,0 +1,38 @@
+<%- include header.ejs %>
+
+<main role="main">
+        <!-- Main jumbotron for a primary marketing message or call to action -->
+        <div class="jumbotron">
+          <div class="container">
+            <h1 class="display-3"><%=latestPost.title %></h1>
+            <p class="">Author:-<%=latestPost.author.name %></p>
+            <% let date = new Date(latestPost.date); %>
+            <p class="">Date:-<%=date.toDateString() %></p>
+            <p><%=myExcerpt(latestPost.description) %></p>
+            <p><a class="btn btn-danger btn-lg" href="/post/detail/<%= latestPost._id %>" role="button">Read more &raquo;</a></p>
+          </div>
+        </div>
+        <div class="container">
+          <!-- Example row of columns -->
+          <div class="row">
+            
+            <% posts.forEach(function(post, index) { %>
+                <div class="col-md-4">
+                <h4><%= post.title %></h4>
+                <h6>Author:-<%= post.author.name %></h6>
+                <% let date = new Date(post.date); %>
+                <p class="">Date:-<%=date.toDateString() %></p>
+                <p><%= myExcerpt(post.description) %></p>
+                <p><a class="btn btn-sm btn-danger" href="/post/detail/<%= post._id %>" role="button">View details &raquo;</a></p>
+                </div>
+            <% }) %>
+           
+          </div>
+      
+          <hr>
+      
+        </div> <!-- /container -->
+      
+      </main>
+
+      <%- include footer.ejs %>
